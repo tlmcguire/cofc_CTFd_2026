@@ -197,18 +197,18 @@ python3 keygen.py y0u_r3versed_the_l09ic
 
 ### Hide and Seek — `cofc{hidden_files_arent_hidden}`
 
-`clubhouse.zip` extracts into a small tree of folders. A plain `ls` (or Windows
+`data.zip` extracts into a small tree of folders. A plain `ls` (or Windows
 Explorer's default view) won't show everything — files and folders whose name starts
 with a `.` are conventionally hidden from normal directory listings, not actually
 protected in any way.
 
 ```bash
-unzip clubhouse.zip
-find clubhouse -name ".*"        # macOS/Linux
+unzip data.zip
+find data -name ".*"        # macOS/Linux
 ```
 
 ```powershell
-Get-ChildItem -Recurse -Force clubhouse | Where-Object { $_.Name -like ".*" }
+Get-ChildItem -Recurse -Force data | Where-Object { $_.Name -like ".*" }
 ```
 
 That turns up `.config/.flag` a few levels down. `cat` it (or `Get-Content` on Windows)
@@ -256,6 +256,31 @@ print(net.broadcast_address)   # 10.42.17.255
 ```
 
 Replace the dots with underscores to match the flag format: `cofc{broadcast_10_42_17_255}`.
+
+---
+
+### Dig Deeper — `cofc{security_defcon_org}`
+
+DNS holds more record types than just the `A` record that maps a name to an IP.
+`TXT` records carry arbitrary text, and organizations use them for all kinds of
+things — domain ownership verification, SPF rules for email, and sometimes contact
+information. Query `defcon.org`'s TXT records:
+
+```bash
+dig +short TXT defcon.org
+```
+
+```powershell
+Resolve-DnsName -Name defcon.org -Type TXT
+```
+
+One of the returned strings is `security_contact=mailto:security@defcon.org` — a
+real, published way to report a security issue to them directly, published the same
+way a company might publish an SPF record. Swap the `@` and `.` for underscores to
+get the flag: `cofc{security_defcon_org}`.
+
+If `dig` isn't installed, any of the free online DNS lookup tools (MXToolbox,
+Google's `dns.google`, etc.) return the same TXT records for the same domain.
 
 ---
 
@@ -721,25 +746,36 @@ until a `#####END#####` marker.
 
 ## OSINT
 
-### Boarding Pass — `cofc{knoxville}`
+### Boarding Pass — `cofc{zz0834_1842_frankfurt}`
 
-The printed part of the pass has the destination blacked out, but the barcode
-underneath was generated from the full, unredacted string. Boarding pass barcodes are
-usually Code 128 and readable by almost anything that scans barcodes — a phone
-scanning app, a free online decoder, or `zbar` on a computer:
+Passenger name, origin, destination, flight number, and departure time are all
+blacked out in the printed fields — but the QR code was generated from the full,
+unredacted data. Boarding pass barcodes/QR codes are readable by a phone camera, a
+free online decoder, or `zbar` on a computer:
 
 ```bash
 zbarimg boarding_pass.png
 ```
 
-That returns the raw string, including a piece the printed text hid:
-`...CHSTYSDL0472...`. `CHS` is Charleston, where the pass says the flight started.
-`TYS` is the part that was blacked out — an IATA airport code. A search for what
-airport that code belongs to turns up McGhee Tyson Airport, which serves Knoxville,
-Tennessee.
+That decodes to a string laid out like a real BCBP (Bar Coded Boarding Pass) record:
+passenger name, PNR, origin, destination, carrier and flight number, a departure
+time, a date, class, seat, and a check-in sequence number —
+`...YUL FRA ZZ0834 1842...` among them. `FRA` is an IATA airport code, not a word —
+looking it up turns up Frankfurt Airport, in Germany. Put flight number, departure
+time, and destination city together in the order the challenge asks for:
 
-Airline boarding passes have leaked more than intended before, in exactly this way —
-the printed side and the barcode don't always show the same amount of information.
+```
+cofc{zz0834_1842_frankfurt}
+```
+
+Note: don't try to verify the flight number itself against a live flight tracker —
+this is fictional data, and airlines do reuse real flight numbers for real routes.
+The only external lookup this challenge needs is the airport code.
+
+Real airline boarding passes have leaked more than intended this same way before —
+the barcode and the printed side don't always carry the same amount of information,
+and the format they're encoded in (IATA calls it BCBP) is a public, documented
+standard, not something proprietary to any one airline.
 
 ---
 

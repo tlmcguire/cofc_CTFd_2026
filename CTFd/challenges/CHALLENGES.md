@@ -101,7 +101,7 @@ Flag: `cofc{y0u_r3versed_the_l09ic}`
 
 | Challenge | Difficulty | Suggested Points | Files to attach |
 |---|---|---|---|
-| Hide and Seek | Easy | 75 | `Linux_Fundamentals/hide_and_seek/clubhouse.zip` |
+| Hide and Seek | Easy | 75 | `Linux_Fundamentals/hide_and_seek/data.zip` |
 | Needle in a Haystack | Easy | 100 | `Linux_Fundamentals/haystack/logs.zip` |
 
 ### Hide and Seek
@@ -116,17 +116,24 @@ Flag: `cofc{grep_dash_r_saves_time}`
 
 ---
 
-## Networking — previews Weeks 5–6 and 11–12 (networking basics & traffic analysis)
+## Networking — previews Weeks 5–6, 11–12, and 13–14 (networking basics, traffic analysis, DNS)
 
 | Challenge | Difficulty | Suggested Points | Files to attach |
 |---|---|---|---|
 | Subnet Math | Easy | 75 | `Networking/subnet_math/prompt.txt` |
+| Dig Deeper | Easy | 75 | `Networking/dig_deeper/prompt.txt` |
 | Sniffed | Medium | 150 | `Networking/sniffed/capture.pcap` |
 
 ### Subnet Math
-> An address for one of the club's laptops.
+> An IP address and a CIDR prefix.
 
 Flag: `cofc{broadcast_10_42_17_255}`
+
+### Dig Deeper
+> A domain name. Flag format:
+> replace `@` and `.` with `_`.
+
+Flag: `cofc{security_defcon_org}`
 
 ### Sniffed
 > A short recording of network traffic.
@@ -162,7 +169,7 @@ Flag: `cofc{ctrl_u_is_ur_friend}`
 | Small Fry | **Hard** | 400 | `Cryptography/rsa_small/params.txt` |
 
 ### The Numbers
-> Left behind after the last meeting.
+> A base64-encoded string.
 
 Flag: `cofc{somanynumbers}`
 
@@ -172,7 +179,7 @@ Flag: `cofc{somanynumbers}`
 Flag: `cofc{areyoulikingciphers}`
 
 ### Hex Appeal
-> Another leftover note. Different alphabet this time.
+> A string encoded in a different base.
 
 Flag: `cofc{hex_is_just_base16}`
 
@@ -187,7 +194,7 @@ Flag: `cofc{ea5y_a5_1_2_3}`
 Flag: `cofc{v1gen3re_is_c00l}`
 
 ### Between the Lines
-> A paragraph about the club that reads a little wrong.
+> A paragraph of text that reads a little wrong.
 
 Flag: `cofc{freq_u3ncy_an4lysis}`
 
@@ -222,12 +229,12 @@ Flag: `cofc{rs4_1s_ju5t_m4th}`
 Flag: `cofc{g0od_w0rk_d3t3ct!ve}`
 
 ### Behind the Picture
-> An old photo, posted without much thought.
+> A photo with more stored in the file than what's visible.
 
 Flag: `cofc{m3tadata_m4tters}`
 
 ### Scan Me
-> Printed for a flyer, never explained.
+> An image file.
 
 Flag: `cofc{qr_c0des_are_ne4t}`
 
@@ -247,7 +254,7 @@ Flag: `cofc{sign4tures_matt3r}`
 Flag: `cofc{brut3_f0rc3_zip}`
 
 ### On the Air
-> An old recording from the club's radio night.
+> An audio file.
 
 Flag: `cofc{dit_dah_flag}`
 
@@ -272,17 +279,18 @@ run a script.
 | Trivia Run | Easy | 100 | `OSINT/trivia_run/questions.txt` |
 
 ### Boarding Pass
-> A torn boarding pass. Most of it is blacked out.
+> A boarding pass with the important parts blacked out. Flag format:
+> `cofc{flightnumber_departuretime_destinationcity}`, all lowercase, 24-hour time.
 
-Flag: `cofc{knoxville}`
+Flag: `cofc{zz0834_1842_frankfurt}`
 
 ### Low Tide
-> Coordinates from an old flight log, and a line about the schedule.
+> A set of coordinates, and a note about a tidal schedule.
 
 Flag: `cofc{brr}`
 
 ### Trivia Run
-> Three short questions about how this all started.
+> Three short cybersecurity history questions.
 
 Flag: `cofc{1999_1988_cfaa}`
 
@@ -296,7 +304,7 @@ default sequence. Within each category, easiest first:
 1. **Code Execution / Misc** — First Script → Environment Check → Binary Search Game →
    One Line Off → Look, Don't Touch → Bytecode Blues → Rockstar → Keygen
 2. **Linux Fundamentals** — Hide and Seek → Needle in a Haystack
-3. **Networking** — Subnet Math → Sniffed
+3. **Networking** — Subnet Math → Dig Deeper → Sniffed
 4. **Web** — View Source
 5. **Cryptography** — The Numbers → Hex Appeal → What's This? → Layers → Repeat After
    Me → Crib Drag → Between the Lines → Small Fry

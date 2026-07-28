@@ -1,4 +1,4 @@
-A club laptop was handed out with this address:
+A host on the network was assigned this address:
 
     10.42.17.201/26
 

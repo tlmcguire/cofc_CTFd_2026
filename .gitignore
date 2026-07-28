@@ -85,5 +85,5 @@ flask_profiler.sql
 # *.py[cod] / *.zip rules above
 !CTFd/challenges/Code_Execution/bytecode_blues/challenge.pyc
 !CTFd/challenges/Forensics/Zip_Lock/secure.zip
-!CTFd/challenges/Linux_Fundamentals/hide_and_seek/clubhouse.zip
+!CTFd/challenges/Linux_Fundamentals/hide_and_seek/data.zip
 !CTFd/challenges/Linux_Fundamentals/haystack/logs.zip
