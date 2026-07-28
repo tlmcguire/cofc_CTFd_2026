@@ -1,0 +1,6 @@
+Three questions. Answers go in order, lowercase, underscores between them.
+
+1. The year MITRE's CVE list first went public.
+2. The year the first worm to spread across the early internet was released.
+3. The four-letter common acronym for the US law used in the resulting felony
+   conviction.

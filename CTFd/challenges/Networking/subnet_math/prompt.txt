@@ -1,0 +1,8 @@
+A club laptop was handed out with this address:
+
+    10.42.17.201/26
+
+Figure out the broadcast address of the subnet it belongs to, and wrap it in the flag
+format, replacing dots with underscores.
+
+Example format (not the real answer): cofc{broadcast_10_0_0_255}

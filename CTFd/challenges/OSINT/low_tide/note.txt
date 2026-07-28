@@ -1,0 +1,7 @@
+Found in an old flight log:
+
+57.0228, -7.44306
+
+Departures here run on the tide table, not the clock.
+
+Find the three-letter code for this place.

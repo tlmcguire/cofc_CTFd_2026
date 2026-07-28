@@ -31,7 +31,7 @@ if %guess% lss %target% (
 ) else (
     echo Congratulations! You guessed the correct number: %target%
     REM Retrieve the flag from the flag file
-    type C:..\..\flags\binary_flag.txt
+    type ..\..\flags\binary_flag.txt
     exit /b 0
 )
 

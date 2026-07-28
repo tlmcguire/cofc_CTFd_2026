@@ -80,3 +80,10 @@ node_modules/
 
 # Flask Profiler files
 flask_profiler.sql
+
+# Kickoff CTF challenge assets that would otherwise be caught by the blanket
+# *.py[cod] / *.zip rules above
+!CTFd/challenges/Code_Execution/bytecode_blues/challenge.pyc
+!CTFd/challenges/Forensics/Zip_Lock/secure.zip
+!CTFd/challenges/Linux_Fundamentals/hide_and_seek/clubhouse.zip
+!CTFd/challenges/Linux_Fundamentals/haystack/logs.zip

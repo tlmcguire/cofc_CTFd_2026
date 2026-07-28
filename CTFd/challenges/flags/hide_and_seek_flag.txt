@@ -1,0 +1,1 @@
+cofc{hidden_files_arent_hidden}
