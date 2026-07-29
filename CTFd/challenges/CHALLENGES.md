@@ -1,4 +1,4 @@
-# CofC Cyber Club — Kickoff CTF Challenge Set
+# CofC Cybersecurity Club — Open House 2026 Challenge Set
 
 This is the challenge set for the Week 1–2 "Introduction to the Club & CTF Basics" meeting.
 It's meant to be a simple, welcoming introductory CTF that covers foundational computer
@@ -296,7 +296,7 @@ Flag: `cofc{1999_1988_cfaa}`
 
 ---
 
-## Suggested play order for a 60–90 minute kickoff session
+## Suggested play order for a 60–90 minute Open House session
 
 Following the category order above tracks the semester's own arc, so it's a reasonable
 default sequence. Within each category, easiest first:

@@ -1,0 +1,155 @@
+/*
+ * CofC Cybersecurity Club brand theme for CTFd.
+ *
+ * Colors and type pulled from the club's official "Design Components" deck,
+ * which is aligned with the College of Charleston's brand guidelines
+ * (charleston.edu/marketing-communications). Two rules from that deck drive
+ * the choices below: never tint the maroon, and never pair maroon with black
+ * alone -- which is why the dark-mode accent is mint/teal (the deck's own
+ * "accent on dark" role) rather than maroon-on-near-black.
+ *
+ * Paste this into Admin Panel -> Config -> Style -> Theme Header, wrapped in
+ * a <style> tag, or apply it via the API (see scripts/seed_dev_ctf.py for an
+ * example that does this end to end on a fresh instance).
+ */
+
+:root {
+  --brand-maroon: #660000;
+  --brand-maroon-dark: #3d0000;
+  --brand-gold: #bfa87c;
+  --brand-teal: #2f9e91;
+  --brand-teal-dark: #014c44;
+  --brand-mint: #4ad4c4;
+  --brand-teal-light: #e5f4f2;
+  --brand-ink: #1b1e1d;
+  --brand-muted: #6b6560;
+  --brand-card-bg: #f8f3ea;
+}
+
+/* Light mode: maroon primary (the deck's light-background role) */
+[data-bs-theme="light"] {
+  --bs-primary: var(--brand-maroon);
+  --bs-primary-rgb: 102, 0, 0;
+  --bs-primary-text-emphasis: var(--brand-maroon-dark);
+  --bs-link-color: var(--brand-maroon);
+  --bs-link-color-rgb: 102, 0, 0;
+  --bs-link-hover-color: var(--brand-maroon-dark);
+  --bs-link-hover-color-rgb: 61, 0, 0;
+  --bs-body-color: var(--brand-ink);
+}
+
+[data-bs-theme="light"] .card {
+  background-color: var(--brand-card-bg);
+}
+
+[data-bs-theme="light"] .btn-primary {
+  color: #ffffff;
+}
+
+/* Challenge tiles on the /challenges page are rendered as .btn-dark
+   buttons, not .card -- give them the brand's light card fill instead of
+   Bootstrap's flat dark gray */
+[data-bs-theme="light"] .challenge-button.btn-dark {
+  background-color: var(--brand-card-bg);
+  border-color: var(--brand-card-bg);
+  color: var(--brand-ink);
+}
+
+[data-bs-theme="light"] .challenge-button.btn-dark:hover,
+[data-bs-theme="light"] .challenge-button.btn-dark:focus {
+  background-color: var(--brand-teal-light);
+  border-color: var(--brand-teal-light);
+  color: var(--brand-ink);
+}
+
+[data-bs-theme="light"] .btn-primary:hover,
+[data-bs-theme="light"] .btn-primary:focus {
+  background-color: var(--brand-maroon-dark);
+  border-color: var(--brand-maroon-dark);
+}
+
+/* Flag-submit button: the single most important control on the site,
+   currently a generic gray outline button -- give it the brand treatment */
+[data-bs-theme="light"] .challenge-submit.btn-outline-secondary {
+  color: var(--brand-maroon);
+  border-color: var(--brand-maroon);
+}
+
+[data-bs-theme="light"] .challenge-submit.btn-outline-secondary:hover,
+[data-bs-theme="light"] .challenge-submit.btn-outline-secondary:focus {
+  background-color: var(--brand-maroon);
+  border-color: var(--brand-maroon);
+  color: #ffffff;
+}
+
+[data-bs-theme="dark"] .challenge-submit.btn-outline-secondary {
+  color: var(--brand-mint);
+  border-color: var(--brand-mint);
+}
+
+[data-bs-theme="dark"] .challenge-submit.btn-outline-secondary:hover,
+[data-bs-theme="dark"] .challenge-submit.btn-outline-secondary:focus {
+  background-color: var(--brand-mint);
+  border-color: var(--brand-mint);
+  color: var(--brand-ink);
+}
+
+/* Dark mode: mint/teal primary -- the deck's own "accent on dark" color,
+   not a darkened maroon */
+[data-bs-theme="dark"] {
+  --bs-primary: var(--brand-mint);
+  --bs-primary-rgb: 74, 212, 196;
+  --bs-primary-text-emphasis: var(--brand-mint);
+  --bs-link-color: var(--brand-mint);
+  --bs-link-color-rgb: 74, 212, 196;
+  --bs-link-hover-color: var(--brand-teal);
+  --bs-link-hover-color-rgb: 47, 158, 145;
+}
+
+[data-bs-theme="dark"] .btn-primary {
+  color: var(--brand-ink);
+}
+
+[data-bs-theme="dark"] .btn-primary:hover,
+[data-bs-theme="dark"] .btn-primary:focus {
+  background-color: var(--brand-teal);
+  border-color: var(--brand-teal);
+}
+
+/* Navbar and page-header band: always maroon / maroon-dark in both modes --
+   these are the club's fixed header treatment, not something that should
+   follow the light/dark toggle. Maroon Dark is the deck's own "dark
+   backgrounds" role. */
+nav.navbar {
+  background-color: var(--brand-maroon) !important;
+}
+
+.jumbotron {
+  background-color: var(--brand-maroon-dark) !important;
+}
+
+nav.navbar .navbar-brand,
+nav.navbar .nav-link {
+  color: #ffffff !important;
+}
+
+nav.navbar .nav-link:hover,
+nav.navbar .nav-link:focus {
+  color: var(--brand-gold) !important;
+}
+
+/* Typography: Cambria for headings, Calibri for body, Courier New for code
+   -- per the deck's type system, no exceptions */
+body {
+  font-family: Calibri, "Segoe UI", Arial, sans-serif;
+}
+
+h1, h2, h3, h4, h5, h6,
+.navbar-brand,
+.card-title {
+  font-family: Cambria, Georgia, "Times New Roman", serif;
+}
+
+code, pre, kbd, samp {
+  font-family: "Courier New", Courier, monospace;
+}

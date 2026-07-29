@@ -39,8 +39,11 @@ DEV_ADMIN = {
     "password": "ChangeMe123!",
 }
 
+CTF_NAME = "CofC Cybersecurity Club Open House 2026"
+
 REPO_ROOT = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 CHALLENGES_DIR = os.path.join(REPO_ROOT, "CTFd", "challenges")
+BRANDING_DIR = os.path.join(REPO_ROOT, "CTFd", "branding")
 
 CHALLENGES = [
     {
@@ -383,6 +386,18 @@ class Client:
             content_type="application/json",
         )
 
+    def patch_json(self, path, obj):
+        headers = {}
+        if self.nonce:
+            headers["CSRF-Token"] = self.nonce
+        return self.request(
+            "PATCH",
+            path,
+            data=json.dumps(obj).encode(),
+            headers=headers,
+            content_type="application/json",
+        )
+
     def post_multipart(self, path, fields, file_field, file_path):
         boundary = uuid.uuid4().hex
         buf = io.BytesIO()
@@ -447,7 +462,7 @@ def ensure_authenticated(client):
     print("Running first-time setup with the dev admin account...")
     fields = {
         "nonce": nonce,
-        "ctf_name": "CofC Cyber Club Kickoff CTF (dev)",
+        "ctf_name": CTF_NAME,
         "ctf_description": "Local test instance -- seeded by scripts/seed_dev_ctf.py",
         "user_mode": "users",
         "challenge_visibility": "public",
@@ -517,6 +532,48 @@ def force_public_visibility(client):
             content_type="application/json",
         )
     print("Visibility settings forced to public (no login needed to view challenges).")
+
+
+def apply_branding(client):
+    # Event name -- in case this instance was set up before the rename, or
+    # was set up manually with the old name.
+    client.patch_json("/api/v1/configs/ctf_name", {"value": CTF_NAME})
+
+    # Logo (navbar) and favicon: upload the file, then point the config at
+    # wherever CTFd stored it.
+    uploads = [
+        ("ctf_logo", os.path.join(BRANDING_DIR, "logos", "logo-horizontal-white.png")),
+        ("ctf_small_icon", os.path.join(BRANDING_DIR, "logos", "favicon-32.png")),
+    ]
+    for config_key, file_path in uploads:
+        if not os.path.exists(file_path):
+            print(f"  [skip] {config_key}: {file_path} not found")
+            continue
+        status, body, _ = client.post_multipart(
+            "/api/v1/files", {"nonce": client.nonce}, "file", file_path
+        )
+        if status != 200:
+            print(f"  [FAIL] {config_key} upload failed ({status})")
+            continue
+        location = json.loads(body)["data"][0]["location"]
+        client.patch_json(f"/api/v1/configs/{config_key}", {"value": location})
+
+    # Theme color (used as a fallback by CTFd itself) plus the full CSS
+    # override for everything the single theme_color field can't reach --
+    # see CTFd/branding/theme.css for the source and the reasoning behind
+    # each color choice.
+    client.patch_json("/api/v1/configs/theme_color", {"value": "#660000"})
+    css_path = os.path.join(BRANDING_DIR, "theme.css")
+    if os.path.exists(css_path):
+        with open(css_path) as f:
+            css = f.read()
+        client.patch_json(
+            "/api/v1/configs/theme_header", {"value": f"<style>\n{css}\n</style>"}
+        )
+    else:
+        print(f"  [skip] theme_header: {css_path} not found")
+
+    print("Branding applied: name, logo, favicon, and color theme.")
 
 
 def existing_challenge_names(client):
@@ -598,6 +655,7 @@ def main():
     ensure_authenticated(client)
     refresh_nonce(client)
     force_public_visibility(client)
+    apply_branding(client)
     print("\nCreating challenges (skipping any that already exist)...")
     create_challenges(client)
 

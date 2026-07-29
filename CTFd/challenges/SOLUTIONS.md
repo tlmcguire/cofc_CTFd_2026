@@ -1,4 +1,4 @@
-# Solutions — CofC Cyber Club Kickoff CTF
+# Solutions — CofC Cybersecurity Club Open House 2026
 
 Companion write-up for [`CHALLENGES.md`](CHALLENGES.md). Categories are in the same
 order as that file (Code Execution/Misc, then Linux Fundamentals, Networking, and Web

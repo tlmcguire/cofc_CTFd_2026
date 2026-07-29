@@ -1,6 +1,6 @@
-# Running the Kickoff CTF — Setup & Hosting Guide
+# Setup & Hosting Guide — CofC Cybersecurity Club Open House 2026
 
-This covers standing up CTFd itself for the club's Week 1–2 kickoff meeting, adding the
+This covers standing up CTFd itself for the club's Open House event, adding the
 challenge set from [`CTFd/challenges/CHALLENGES.md`](CTFd/challenges/CHALLENGES.md), and
 running the event on the day. Solutions for every challenge are in
 [`CTFd/challenges/SOLUTIONS.md`](CTFd/challenges/SOLUTIONS.md) — don't publish that file
@@ -77,7 +77,7 @@ That brings back the first-run setup wizard from a genuinely clean database.
 ## 3. Fastest path for testing: skip the wizard entirely
 
 If you just want to confirm the challenge set works — without clicking through the
-setup wizard, creating an admin account, or adding all 17 challenges by hand — there's
+setup wizard, creating an admin account, or adding all 33 challenges by hand — there's
 a script that does all of that for you:
 
 ```bash
@@ -100,10 +100,12 @@ It's plain Python 3 standard library (no `pip install` needed) and only ever tal
 changed the port. This is a development convenience only — for the actual event, follow
 sections 5–6 below and pick your own admin password and visibility settings.
 
-Verified end-to-end while writing this doc: fresh instance → run the script → all 17
-challenges appear on `/challenges` with no login → registering a normal player account
-and submitting each flag through the real CTFd API returns `"status": "correct"` (and a
-deliberately wrong flag correctly comes back `"status": "incorrect"`).
+Verified end-to-end while writing this doc: fresh instance → run the script → all 33
+challenges appear across 7 categories on `/challenges` with no login → registering a
+normal player account and submitting each flag through the real CTFd API returns
+`"status": "correct"` (and a deliberately wrong flag correctly comes back
+`"status": "incorrect"`) → branding (name, logo, favicon, maroon/gold/teal color theme)
+confirmed live in both light and dark mode.
 
 ## 4. Alternative: running without Docker
 
@@ -125,7 +127,8 @@ to reset cleanly.
 
 On first visit, CTFd walks you through a setup wizard:
 
-1. **Event name** — e.g. "CofC Cyber Club Kickoff CTF."
+1. **Event name** — "CofC Cybersecurity Club Open House 2026," or whatever the current
+   event is actually called.
 2. **Admin account** — this is your organizer login; use a real password, this account
    can see every flag and every player's answers.
 3. **User Mode** (Team Mode vs. User Mode) — for a first meeting where people don't know
@@ -136,7 +139,7 @@ On first visit, CTFd walks you through a setup wizard:
    fine; you can hide challenges/scores from outsiders in Admin → Config → Visibility
    if you want it locked to logged-in members only.
 5. Skip the logo/theme/Mail server steps for now — none of that matters for a single
-   kickoff session. You can revisit Admin → Config any time.
+   session. You can revisit Admin → Config any time.
 
 ## 6. Adding the challenges
 
@@ -154,7 +157,7 @@ not a CTFd export. For each row in
    `CTFd/challenges/flags/` — they match).
 5. Under **Files**, upload the file(s) listed for that challenge so players can
    download them from the challenge page.
-6. Save, then repeat for the rest. Budget about 20–30 minutes to create all 17.
+6. Save, then repeat for the rest. Budget about 45–60 minutes to create all 33.
 
 A few challenges need a slightly different touch than "just attach the file":
 
@@ -173,7 +176,47 @@ player-facing challenge page (not from your local repo checkout) and confirm the
 you expect actually solves it. This catches upload mistakes (wrong file, stale version)
 before members hit them live.
 
-## 7. Running the event
+## 7. Branding
+
+The event name, logo, favicon, and color theme all come from the club's official
+"Design Components" deck, which is itself aligned with the College of Charleston's
+brand guidelines (charleston.edu/marketing-communications) — maroon and gold as
+primary, teal/mint as secondary, Cambria for headings, Calibri for body text. The
+assets and the reasoning behind each color choice live in `CTFd/branding/`:
+
+- `CTFd/branding/logos/` — the official logo lockups (horizontal, stacked, vertical;
+  each in a light-background and a dark-background version), plus a cropped 32×32
+  favicon.
+- `CTFd/branding/theme.css` — the full color/typography override, with a comment
+  explaining each choice (in particular: why dark mode uses mint/teal accents instead
+  of a darkened maroon — the deck's own guidance is to never pair maroon with black
+  alone).
+
+`scripts/seed_dev_ctf.py` applies all of this automatically on the dev/test instance
+(see `apply_branding()` in that script) — that's the fastest way to see it rendered
+before deciding whether to use it as-is. To apply it to the real event instance by
+hand:
+
+1. **Event name**: already set during first-run setup (step 5 above) if you used the
+   current official name. To change it later: Admin Panel → Config → General → **Event
+   Name**.
+2. **Logo**: Admin Panel → Config → General → **Style** tab → upload
+   `CTFd/branding/logos/logo-horizontal-white.png` as the CTF Logo (white/dark-bg
+   version — the navbar is maroon, so the light-background "-maroon" logos won't have
+   enough contrast there).
+3. **Favicon**: same Style tab → upload `CTFd/branding/logos/favicon-32.png` as the
+   Small Icon (CTFd requires exactly 32×32).
+4. **Full color theme**: Admin Panel → Config → General → **Style** tab → paste the
+   contents of `CTFd/branding/theme.css`, wrapped in a `<style>...</style>` tag, into
+   the **Theme Header** field. This is what actually recolors buttons, links, cards,
+   and the navbar/header band — the single "Theme Color" field only controls one
+   fallback color and isn't enough on its own.
+
+Check both the light and dark theme (the moon icon in the navbar toggles it) after
+applying — the CSS handles both, but it's worth a visual check since CTFd's built-in
+dark mode is the default for most browsers/OS settings.
+
+## 8. Running the event
 
 - Post the URL and a QR code (most phone cameras scan QR codes natively) at the start
   of the meeting.
@@ -187,7 +230,7 @@ before members hit them live.
   VPS option means you don't need to keep a laptop running — just leave the container
   up (`docker compose up -d` already runs detached).
 
-## 8. Backing up / resetting for next time
+## 9. Backing up / resetting for next time
 
 - **Export everything** (all challenges, users, submissions): Admin Panel → Config →
   **Backup** tab → **Import & Export** — downloads a `.zip` you can keep or restore
