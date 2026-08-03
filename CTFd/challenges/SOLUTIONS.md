@@ -746,36 +746,44 @@ until a `#####END#####` marker.
 
 ## OSINT
 
-### Boarding Pass — `cofc{zz0834_1842_frankfurt}`
+### Boarding Pass — `cofc{aa2376_las_vegas}`
 
-Passenger name, origin, destination, flight number, and departure time are all
-blacked out in the printed fields — but the QR code was generated from the full,
-unredacted data. Boarding pass barcodes/QR codes are readable by a phone camera, a
-free online decoder, or `zbar` on a computer:
+Passenger name, origin, destination, flight number, and date are all blacked out in
+the printed fields — but the barcode along the bottom is a real, scannable **PDF417**
+(the actual IATA-standard format used on printed boarding passes, not a QR code — a
+tall stack of narrow bar-and-space rows rather than a grid of squares). A phone
+camera scanning app, or a decoder that specifically supports PDF417, reads it
+directly. Note this one specifically: common command-line tools like `zbar` do **not**
+decode PDF417 at all (it isn't in `zbar`'s supported symbology list), so a "no
+barcode found" result from `zbar` doesn't mean the code is broken — it means you need
+a decoder that covers PDF417, e.g. `zxing-cpp`, or a phone app.
 
-```bash
-zbarimg boarding_pass.png
-```
-
-That decodes to a string laid out like a real BCBP (Bar Coded Boarding Pass) record:
-passenger name, PNR, origin, destination, carrier and flight number, a departure
-time, a date, class, seat, and a check-in sequence number —
-`...YUL FRA ZZ0834 1842...` among them. `FRA` is an IATA airport code, not a word —
-looking it up turns up Frankfurt Airport, in Germany. Put flight number, departure
-time, and destination city together in the order the challenge asks for:
+Decoding it returns a raw string in the same BCBP (Bar Coded Boarding Pass) layout
+real airlines use — a public, documented standard, not something proprietary to any
+one carrier:
 
 ```
-cofc{zz0834_1842_frankfurt}
+M1WALKER/JAMES        EA1B2C3 DFWLASAA 2376 217Y011B0063 147>218  K    BAA...
 ```
 
-Note: don't try to verify the flight number itself against a live flight tracker —
-this is fictional data, and airlines do reuse real flight numbers for real routes.
-The only external lookup this challenge needs is the airport code.
+Breaking down the mandatory fields: `M1` (format code, one leg), `WALKER/JAMES`
+(passenger name), `E` (electronic ticket), `A1B2C3` (PNR), then `DFW` / `LAS` /
+`AA` run together (origin, destination, operating carrier), `2376` (flight number),
+`217` (day 217 of the year), `Y` (class), `011B` (seat), `0063` (check-in sequence).
+Note there's no literal clock time anywhere in there — real BCBP data doesn't encode
+a departure time, only a flight number and a Julian-calendar date, which is why this
+challenge's flag doesn't ask for one either.
+
+`LAS` is an IATA airport code, not a word — looking it up turns up Harry Reid
+International Airport, in Las Vegas. Put the flight number and destination city
+together in the order the challenge asks for:
+
+```
+cofc{aa2376_las_vegas}
+```
 
 Real airline boarding passes have leaked more than intended this same way before —
-the barcode and the printed side don't always carry the same amount of information,
-and the format they're encoded in (IATA calls it BCBP) is a public, documented
-standard, not something proprietary to any one airline.
+the barcode and the printed side don't always carry the same amount of information.
 
 ---
 

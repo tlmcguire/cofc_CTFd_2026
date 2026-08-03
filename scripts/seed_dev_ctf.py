@@ -297,9 +297,9 @@ CHALLENGES = [
         "name": "Boarding Pass",
         "category": "OSINT",
         "value": 150,
-        "description": "A boarding pass with the important parts blacked out. Flag format: cofc{flightnumber_departuretime_destinationcity}, all lowercase, 24-hour time.",
+        "description": "A boarding pass with the important parts blacked out. Flag format: cofc{flightnumber_destinationcity}, all lowercase.",
         "files": ["OSINT/boarding_pass/boarding_pass.png"],
-        "flag": "cofc{zz0834_1842_frankfurt}",
+        "flag": "cofc{aa2376_las_vegas}",
     },
     {
         "name": "Low Tide",

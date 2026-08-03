@@ -280,9 +280,9 @@ run a script.
 
 ### Boarding Pass
 > A boarding pass with the important parts blacked out. Flag format:
-> `cofc{flightnumber_departuretime_destinationcity}`, all lowercase, 24-hour time.
+> `cofc{flightnumber_destinationcity}`, all lowercase.
 
-Flag: `cofc{zz0834_1842_frankfurt}`
+Flag: `cofc{aa2376_las_vegas}`
 
 ### Low Tide
 > A set of coordinates, and a note about a tidal schedule.
